@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Basic Page Needs
+    ================================================== -->
+    <meta charset="utf-8">
+    <title>ChiScore 2016</title>
+
+    <!-- Mobile Specific Metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- CSS
+    ================================================== -->
+    <link rel="stylesheet" href="/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="/css/chiscore.css" type="text/css" />
+
+    <!-- Scripts
+    ================================================== -->
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/underscore.min.js"></script>
+    <script src="/js/backbone.min.js"></script>
+    <script src="/ejs/checkin.js"></script>
+    <script src="/ejs/checkout.js"></script>
+    <script src="/js/chiscore/chiscore.js"></script>
+    <script src="/js/chiscore/services.js"></script>
+    <script src="/js/chiscore/checkin.js"></script>
+    <script src="/js/chiscore/checkin-collection.js"></script>
+    <script src="/js/chiscore/checkin-view.js"></script>
+    <script src="/js/chiscore/board-view.js"></script>
+     <!-- // <script src="/js/chiscore/checkin_board.js"></script> -->
+    <script src="/js/chiscore/active_board.js"></script>
+
+    <script type="text/javascript">
+      $(document).ready(function() {
+          ChiScore.main()
+          });
+    </script>
+
+    <!-- Typekit
+    ==================================================  -->
+    <script type="text/javascript" src="//use.typekit.net/syh6yep.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+  </head>
+<body>
+
+<div class='container'>
+  <header>
+    <h1 class='chiscore-name'><a href="/">ChiScore 2016</a></h1>
+
+    <% if logged_in? %>
+      <a class="logout button" href="/auth/logout">Logout</a>
+    <% end %>
+
+    <% if checkpoint? %>
+      <a class="all-checkins button" href="/">Team Check-In</a>
+      <a class="all-checkins button" href="/all">All Checkins</a>
+    <% end %>
+
+    <% if !logged_in? %>
+      <a class="button" href="/public/checkpoints/all">Checkpoint Statuses</a>
+      <a class="button" href="/public/">Route Leaderboards</a>
+    <% end %>
+
+    <% if admin? %>
+      <% if ChiScore::Repository.fetch_race_start.nil? %>
+        <a href="/admin/start-race" class="button">Start the Race!</a>
+      <% end %>
+      <a href="/admin/flags" class="button">Flagged Teams</a>
+      <a href="/admin/active" class="button">Checkin Administration</a>
+    <% end %>
+  </header>
+
+  <%= yield %>
+</div><!-- container -->
+
+</html>

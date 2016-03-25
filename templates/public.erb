@@ -1,0 +1,15 @@
+<h2>Leaderboard</h2>
+
+<% leaderboards.reject { |route, leaderboard| leaderboard.leader_details.empty? }.each do |route, leaderboard| %>
+  <h3><a href="/public/<%= route.id %>">Route <%= route.id %></a></h3>
+
+  <ol>
+    <% leaderboard.leader_details.each do |team, came_or_went, time| %>
+      <li>
+      <%= team.name %> <%= came_or_went %>
+       <%= team.last_checkpoint.name %> at <%= time %>
+      </li>
+    <% end %>
+  </ol>
+
+<% end %>

@@ -1,0 +1,8 @@
+<h2> Checkpoints </h2>
+<% checkpoints.each do |checkpoint| %>
+  <h3>
+    <a href="/public/checkpoint/<%= checkpoint.id %>">
+      <%= checkpoint.name %>
+    </a>
+  </h3>
+<% end %>

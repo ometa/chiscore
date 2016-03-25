@@ -1,0 +1,127 @@
+require 'rack/test'
+require 'chiscore/checkins'
+require 'chiscore/checkpoints'
+
+describe ChiScore::Checkins do
+  let(:team) { ChiScore::Team.new(:id => "team-id", :name => "Dynasty") }
+  let(:checkpoint) { ChiScore::Checkpoint.new(1000, "Nick's") }
+  let(:endpoint) { ChiScore::Checkpoint.new(1001, "Nancy's", "endpoint") }
+  let(:repo) { ChiScore::Repository }
+
+  it "saves the finish-line's check-in and check-out at the same time" do
+    repo.stub(:lock).with("team-id") { -1 }
+    repo.should_receive(:check_in!).with(1001, "team-id")
+    repo.should_receive(:check_out!).with(1001, "team-id")
+
+    ChiScore::Checkins.checkin(endpoint, team)
+  end
+
+  it "saves a checkin" do
+    repo.stub(:lock).with("team-id") { -1 }
+    repo.should_receive(:check_in!).with(1000, "team-id")
+    repo.should_not_receive(:check_out!)
+
+    ChiScore::Checkins.checkin(checkpoint, team)
+  end
+
+  it "raises a LockedCheckinAttempt exception if the team has a TTL" do
+    repo.stub(:lock).with("team-id") { 100 }
+
+    expect {
+      ChiScore::Checkins.checkin(checkpoint, team)
+    }.to raise_error ChiScore::Checkins::LockedCheckinAttempt
+  end
+
+  it "finds all current checkins for a given checkpoint" do
+    repo.should_receive(:active_for).with(1000)
+
+    ChiScore::Checkins.active(checkpoint)
+  end
+
+  it "returns a countdown in seconds for all current checkins" do
+    repo.stub(:active_for) { ["teamid1", "teamid2"] }
+    ChiScore::Teams.stub(:find).with("teamid1") { double(:name => "team-one") }
+    ChiScore::Teams.stub(:find).with("teamid2") { double(:name => "team-two") }
+    repo.stub(:time_for).with(1000, "teamid1") { 100 }
+    repo.stub(:time_for).with(1000, "teamid2") { 200 }
+
+
+    result = ChiScore::Checkins.times_for(checkpoint).should =~ [
+      { :team => { :name => "team-one", :id => "teamid1" }, :time => 100 },
+      { :team => { :name => "team-two", :id => "teamid2" }, :time => 200 }
+    ]
+  end
+
+  it "checks out a team if their time left is less than a minute" do
+    repo.stub(:lock).with("team-id") { 59 }
+    repo.should_receive(:check_out!).with(1000, "team-id")
+    ChiScore::Checkins.checkout(checkpoint, team, false)
+  end
+
+  it "raises an early checkout error if team time left is a minute or greater" do
+    repo.stub(:lock).with("team-id") { 60 }
+    expect {
+      ChiScore::Checkins.checkout(checkpoint, team, false)
+    }.to raise_error ChiScore::Checkins::EarlyCheckout
+  end
+
+  it "does not raise early checkout error if team time left is a minute or greater and admin" do
+    repo.set_strategy(ChiScore::NoopRepositoryStrategy)
+    repo.stub(:lock).with("team-id") { 60 }
+
+    expect {
+      ChiScore::Checkins.checkout(checkpoint, team, true)
+    }.not_to raise_error
+  end
+
+  it "delegates destruction to the repository if admin" do
+    repo.stub(:destroy_checkin!) { "destroyed" }
+    expect(ChiScore::Checkins.destroy_checkin(checkpoint, team, true)).to eq("destroyed")
+  end
+
+  it "returns an Illegal Destroy error if not admin" do
+    expect{
+      ChiScore::Checkins.destroy_checkin(checkpoint, team, false)
+    }.to raise_error ChiScore::Checkins::IllegalDestroy
+  end
+
+  it "gets the remaining teams" do
+    out_time, in_time = Time.now, Time.now - 25 * 60
+
+    team1 = ChiScore::Team.new(:id => 1)
+    team2 = ChiScore::Team.new(:id => 2)
+    team3 = ChiScore::Team.new(:id => 3)
+
+    ChiScore::Teams.save(team1)
+    ChiScore::Teams.save(team2)
+    ChiScore::Teams.save(team3)
+
+    checkpoint.stub(:all_teams) { [team1, team2, team3] }
+
+    repo.stub(:checkins_for) do
+      { team1.id => in_time, team2.id => in_time }
+    end
+
+    ChiScore::Checkins.remaining_teams(checkpoint).should == [team3]
+  end
+
+  it "gets all checkin / checkout times for a checkpoint" do
+    out_time, in_time = Time.now, Time.now - 25 * 60
+
+    ChiScore::Teams.stub(:find).with("teamid1") { double(:name => "team-one") }
+    ChiScore::Teams.stub(:find).with("teamid2") { double(:name => "team-two") }
+    ChiScore::Teams.stub(:find).with("teamid3") { double(:name => "team-three") }
+
+    repo.stub(:checkins_for) do
+      {"teamid1" => in_time, "teamid2" => in_time, "teamid3" => in_time}
+    end
+
+    repo.stub(:checkouts_for) {{ "teamid1" => out_time, "teamid2" => out_time }}
+
+    ChiScore::Checkins.all_for(checkpoint).should == [
+      { :team => { :name => "team-one", :id => "teamid1"}, :times => [in_time, out_time]},
+      { :team => { :name => "team-two", :id => "teamid2"}, :times => [in_time, out_time]},
+      { :team => { :name => "team-three", :id => "teamid3"}, :times => [in_time, nil]}
+    ]
+  end
+end

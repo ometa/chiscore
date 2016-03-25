@@ -1,0 +1,11 @@
+<% checkpoints.each do |checkpoint| %>
+  <h4> <%= checkpoint.name %> </h4>
+  <ul id="checkpoint<%= checkpoint.id %>" ></ul>
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+      checkpoint = new ChiScore.ActiveBoard(<%= checkpoint.id %>);
+      checkpoint.init();
+    });
+  </script>
+<% end %>

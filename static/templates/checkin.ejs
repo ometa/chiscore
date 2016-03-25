@@ -1,0 +1,11 @@
+<li data-team-id="<%= checkin.team.id %>">
+  <span class="smiley">☺ </span>
+  <span class="team-name"><%= checkin.team.name %></span>
+  <span class="team-time">
+    <%= ChiScore.util.displayableTime(checkin.time) %>
+  </span>
+
+  <% if(!ChiScore.isPublic) { %>
+    <div class="check-out-link">&#x2715;</div>
+  <% } %>
+</li>

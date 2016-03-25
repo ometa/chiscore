@@ -1,0 +1,26 @@
+<div>
+  <% routes.each do |route| %>
+    <h2><%= "Route #{route.id}" %></h2>
+
+    <table>
+      <tr>
+        <th>Team Name</th>
+        <% route.checkpoints.each do |checkpoint| %>
+          <th> <%= checkpoint.name %> </th>
+        <% end %>
+      </tr>
+
+      <% route.teams.sort.each do |team| %>
+        <tr>
+          <td><%= team.name %></td>
+          <% route.checkpoints.each do |checkpoint| %>
+            <td>
+              <%= team_checkpoint_status(checkpoint, team, include_checkouts) %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+
+    </table>
+  <% end %>
+</div>

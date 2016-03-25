@@ -1,0 +1,8 @@
+<% data.each do |checkpoint, flags| %>
+  <h3><%= checkpoint.name %></h3>
+  <ul>
+    <% flags.values.each do |team| %>
+      <li><%= team.name %></li>
+    <% end %>
+  </ul>
+<% end %>

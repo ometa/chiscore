@@ -1,0 +1,11 @@
+<div class="route_selector">
+  <form action="/public" method="POST">
+  <input type="submit" value="Show Routes">
+  <select class="route_list" name="route">
+    <option value="all"><%= "All Routes" %></option>
+    <% routes.each do |route| %>
+      <option value=<%= "#{route.id}" %>><%= "Route #{route.id}" %></option>
+    <% end %>
+  </select>
+</form>
+</div>

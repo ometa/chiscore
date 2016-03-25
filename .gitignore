@@ -1,0 +1,16 @@
+*.gem
+*.rbc
+*.log
+.bundle
+
+node_modules
+.grunt
+spec/javascript/target
+
+*.log
+
+.DS_Store
+dump.rdb
+
+config/secret_key
+config/admin_key

@@ -1,0 +1,7 @@
+<div>
+  <% unless ChiScore::Repository.fetch_race_start.nil? %>
+    <p>Race start time: <%= Time.at(ChiScore::Repository.fetch_race_start.to_i).strftime("%I:%M %P") %></p>
+  <% end %>
+</div>
+
+<%= _scoreboard locals %>

@@ -1,0 +1,21 @@
+<table>
+  <tr>
+    <th>Team</th>
+    <th>In</th>
+    <th>Out</th>
+  </tr>
+
+  <% checkins.each do |checkin| %>
+    <tr>
+      <td><%= checkin[:team][:name] %></td>
+      <td>
+        <%= checkin[:times].first.nil? ? "--" : Time.at(checkin[:times].first).strftime("%I:%M:%S") %>
+      </td>
+
+      <td>
+        <%= checkin[:times].last.nil? ? "--" : Time.at(checkin[:times].last).strftime("%I:%M:%S") %>
+      </td>
+    </tr>
+  <% end %>
+
+</table>
