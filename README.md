@@ -1,43 +1,88 @@
-chiscore-two
-============
+# chiscore
 
-Scoring app for Chiditarod 2013 (and possibly beyond)
+_Timekeeping and Scoring application for the CHIditarod._
 
-You need redis.
+## Requirements
 
-`brew install redis` and follow those instructions
+- Redis
+- Ruby & Sinatra
+- Node.js
 
-You need bundle, and it needs to install some gems!
+## Architecture
 
-`gem install bundler && bundle `
+Chiscore consists of client and server component.
+
+## Developer Setup
+
+_Assumes you are using OSX. Pull requests for other setups gladly accepted._
+
+#### Setup Daemons and Environment
+
+- Install [homebrew](http://brew.sh/).
+- [Install rbenv](https://github.com/rbenv/rbenv#homebrew-on-mac-os-x) using homebrew.
+- Install prequisites and clone the code:
+
+```bash
+brew install ruby-build
+rbenv install 2.3.1
+brew install redis
+git clone github.com:chiditarod/chiscore
+cd chiscore
+```
+
+#### Server
+
+```bash
+gem install bundler
+bundle install
+bundle exec rake gen_secrets # generate secret keys
+```
+
+#### Client
 
 You need node.js for compilation and running of JavaScript specs
 
-`brew install node` if you don't has it,
-then `npm install -g grunt-cli` -- the grunt-cli may require sudo.
+```bash
+brew install node
+npm install -g grunt-cli # the grunt-cli may require sudo.
+npm install
+```
 
-Then, from the root `chiscore-two` directory, `npm install`
+## Usage Examples
 
-## Server Stuff
+#### Server
+
+Start redis:
+
+    redis-server
+    
 Start the server:
-    `rackup` (or `unicorn` if you're into that)
+
+    bundle exec rackup # or `unicorn` if you're into that 
 
 Run the ruby unit test suite:
-    `rake`
 
-## Client Stuff
+    bundle exec rake
+
+#### Client
+
 Run the JavaScript spec suite:
-    `grunt spec`
+
+    grunt spec
 
 Compile coffee and EJS templates:
-    `grunt build`
+
+    grunt build
 
 Watch and compile coffee and EJS templates:
-    `grunt watch`
+
+    grunt watch
 
 Remove compiled JS targets:
-    `grunt clean`
 
-Logging in: dev environment
-- use test-checkpoint / secret
+    grunt clean
+
+#### Development Login
+
+- use `test-checkpoint` / `secret`
 - use a number between 1 and 160 to check in a team
