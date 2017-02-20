@@ -5,18 +5,28 @@ _Timekeeping and Scoring application for the CHIditarod._
 ## Requirements
 
 - Redis
-- Ruby & Sinatra
+- Ruby
 - Node.js
 
 ## Architecture
 
-Chiscore consists of client and server component.
+Chiscore consists of client and server components.  The server is
+written in Ruby and uses Sinatra.  The client-side is Node.js.
+
+The application requires a secret key and an admin key in order to
+function.  These keys can easily be generated using the included rake
+task, `rake gen_secrets`.  This will place the keys in the `config`
+folder and the app will automatically consume them.
+
+Alternatively, and to support Cloud hosting services like Heroku, the
+`SECRET_KEY` and `ADMIN_KEY` environment variables can be provided in
+leiu of the files on disk.
 
 ## Developer Setup
 
 _Assumes you are using OSX. Pull requests for other setups gladly accepted._
 
-#### Setup Daemons and Environment
+### Setup Daemons and Environment
 
 - Install [homebrew](http://brew.sh/).
 - [Install rbenv](https://github.com/rbenv/rbenv#homebrew-on-mac-os-x) using homebrew.
@@ -30,7 +40,7 @@ git clone github.com:chiditarod/chiscore
 cd chiscore
 ```
 
-#### Server
+### Server
 
 ```bash
 gem install bundler
@@ -38,7 +48,7 @@ bundle install
 bundle exec rake gen_secrets # generate secret keys
 ```
 
-#### Client
+### Client
 
 You need node.js for compilation and running of JavaScript specs
 
@@ -48,23 +58,35 @@ npm install -g grunt-cli # the grunt-cli may require sudo.
 npm install
 ```
 
+## Deployment to Heroku
+
+- Generate the admin and secret keys:
+
+        bundle exec rake gen_secrets
+
+- Ensure the `ADMIN_KEY` and `SECRET_KEY` environment variables are saved.
+
+- Deploy the application:
+
+        git push heroku master
+
 ## Usage Examples
 
-#### Server
+### Server
 
 Start redis:
 
     redis-server
-    
+
 Start the server:
 
-    bundle exec rackup # or `unicorn` if you're into that 
+    bundle exec rackup # or `unicorn` if you're into that
 
 Run the ruby unit test suite:
 
     bundle exec rake
 
-#### Client
+### Client
 
 Run the JavaScript spec suite:
 
@@ -82,7 +104,7 @@ Remove compiled JS targets:
 
     grunt clean
 
-#### Development Login
+### Development Login
 
-- use `test-checkpoint` / `secret`
-- use a number between 1 and 160 to check in a team
+- Use a username and password from `config/data/:year/logins.csv`
+- Use a number from `config/data/:year/teams.csv`

@@ -10,7 +10,7 @@ class ChiLog < Logger
   end
 end
 
-logger = ChiLog.new('rack.log')
+logger = ChiLog.new(STDOUT)
 use Rack::CommonLogger, logger
 
 run ChiScore::App
