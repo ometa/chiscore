@@ -8,11 +8,11 @@ module ChiScore
     end
 
     def self.secret_key
-      File.read("config/secret_key")
+      ENV['SECRET_KEY'] || File.read("config/secret_key")
     end
 
     def self.admin_key
-      File.read("config/admin_key")
+      ENV['ADMIN_KEY'] || File.read("config/admin_key")
     end
   end
 end

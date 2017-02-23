@@ -1,12 +1,15 @@
 $: << File.join(File.dirname(__FILE__), "lib")
 
-require 'rspec/core/rake_task'
+if ENV['RACK_ENV'] != 'production'
+  require 'rspec/core/rake_task'
+
+  desc "Runs the ruby unit test suite"
+  task(:spec) { RSpec::Core::RakeTask.new { |t| t.verbose = false }}
+
+  task :default => [:spec]
+end
+
 require 'securerandom'
-
-task :default => [:spec]
-
-desc "Runs the ruby unit test suite"
-task(:spec) { RSpec::Core::RakeTask.new { |t| t.verbose = false }}
 
 desc "generate the secret key"
 task :gen_secrets do
