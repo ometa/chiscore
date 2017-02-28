@@ -1,7 +1,5 @@
 module Routers
   class Auth < Router
-    ADMIN_KEY = '3E3928ED-1E96-4011-A31A-4DF24BE003EB'
-
     get("/") { _erb(:"auth/landing") }
     get("/sign_in") { _erb(:"auth/sign_in") }
 
@@ -10,7 +8,7 @@ module Routers
         login = ChiScore::Logins.find_by_username(params[:login])
 
         if login.admin?
-          session['admin'] = ADMIN_KEY
+          session['admin'] = ChiScore::Auth.admin_key
           redirect "/admin"
         else
           session['checkpoint-id'] = login.checkpoints.id
