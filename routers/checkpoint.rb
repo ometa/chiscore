@@ -12,9 +12,11 @@ module Routers
 
     get "/" do
       if checkpoint?
+        remaining_teams = ChiScore::Checkins.remaining_teams(@checkpoint)
         _erb :checkpoint, {
           :checkpoint => @checkpoint,
-          :remaining_team_count => ChiScore::Checkins.remaining_teams(@checkpoint).count
+          :remaining_team_count => remaining_teams.count,
+          :select2_data => remaining_teams.map { |team| [team.id, team.name] }
         }
       else
         redirect '/admin'

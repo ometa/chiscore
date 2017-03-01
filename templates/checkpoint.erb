@@ -1,10 +1,26 @@
 <div class='sign-up'>
   <span class='teams-remaining'><%= "#{remaining_team_count} teams remaining" %></span>
   <form id="checkin" type="post">
-    <h2>Check-In</h2>
-    <input type="tel" name="team-number" placeholder="Enter a team number" class='sign-up-input'>
+    <h2>Check-In at <%= checkpoint.name %></h2>
+
+    <select id="team_checkin" name="team-number" placeholder="Enter a team name or number" class='select2 sign-up-input'>
+      <option></option>
+      <% select2_data.each do |d| %>
+        <option value="<%= d[0] %>"><%= "#{d[0]} - #{d[1]}" %></option>
+      <% end %>
+    </select>
+
     <input name="submit" type="submit" value="Mush!" class="button submit-button">
   </form>
 </div>
 
 <ul id="checkins"></ul>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("#team_checkin").select2({
+      placeholder: "Select a team",
+      allowClear: true
+    });
+  });
+</script>

@@ -310,6 +310,33 @@ input[type="submit"]:hover {
 
 /* #Forms
 ================================================== */
+
+select.select2 {
+  width: 100%;
+  background: #f8f8f8;
+  -webkit-appearance: none;
+  border: 1px solid #ddd;
+  padding: .5em .2em;
+  outline: none;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -khtml-border-radius: 3px;
+  border-radius: 3px;
+  font-family: "droid-sans-mono", sans-serif;
+  color: #545454;
+  margin-bottom: .6em;
+  box-sizing: border-box;
+  -webkit-box-sizing:border-box;
+  -moz-box-sizing: border-box;
+}
+
+select.select2.sign-up-input {
+  float: left;
+  width: 70%;
+  margin-bottom: 0;
+  margin-right: .75%;
+ }
+
 input[type="tel"],
 input[type=login],
 input[type=password],

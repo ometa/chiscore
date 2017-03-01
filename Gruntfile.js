@@ -53,6 +53,7 @@ module.exports = function(grunt) {
         options: {
           vendor: [
             "static/js/jquery.min.js",
+            "static/js/select2.min.js",
             "static/js/underscore.min.js",
             "static/js/backbone.min.js",
           ],
