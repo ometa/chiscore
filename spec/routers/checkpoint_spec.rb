@@ -20,37 +20,37 @@ describe Routers::Checkpoint do
 
   it "doesn't redirect an admin" do
     browser.get "/admin", {}, 'rack.session' => { "admin" => admin_key }
-    browser.last_response.status.should_not eq 302
+    expect(browser.last_response.status).not_to eq 302
   end
 
   it "doesn't redirect a checkpoint login user for 'all'" do
-    ChiScore::Checkpoints.stub(:find) {  checkpoint }
-    ChiScore::Checkins.stub(:all_for) { [] }
+    allow(ChiScore::Checkpoints).to receive(:find) {  checkpoint }
+    allow(ChiScore::Checkins).to receive(:all_for) { [] }
 
     browser.get "/all", {}, 'rack.session' => { "checkpoint-id" => 2 }
-    browser.last_response.status.should_not eq 302
+    expect(browser.last_response.status).not_to eq 302
   end
 
   it "doesn't redirect a checkpoint login user for root" do
-    ChiScore::Checkpoints.stub(:find) {  checkpoint }
+    allow(ChiScore::Checkpoints).to receive(:find) {  checkpoint }
     browser.get "/", {}, 'rack.session' => { "checkpoint-id" => 2 }
-    browser.last_response.status.should_not eq 302
+    expect(browser.last_response.status).not_to eq 302
   end
 
   it "redirects non-logged in user to auth from root" do
     browser.get "/"
-    browser.last_response.status.should eq 302
+    expect(browser.last_response.status).to eq 302
   end
 
   it "redirects a user if not admin" do
-    ChiScore::Checkins.stub(:all_for) { [] }
+    allow(ChiScore::Checkins).to receive(:all_for) { [] }
     browser.get "/all"
-    browser.last_response.status.should eq 302
+    expect(browser.last_response.status).to eq 302
   end
 
   it "redirects a user to admin page if admin" do
     browser.get "/all", {}, 'rack.session' => { "admin" => admin_key }
-    browser.last_response.status.should eq 302
+    expect(browser.last_response.status).to eq 302
   end
 
 end

@@ -6,7 +6,7 @@ describe ChiScore::Repository do
 
   it "sets/gets a strategy" do
     ChiScore::Repository.set_strategy(strategy)
-    ChiScore::Repository.strategy.should == strategy
+    expect(ChiScore::Repository.strategy).to eq(strategy)
   end
 
   [
@@ -21,7 +21,7 @@ describe ChiScore::Repository do
   ].each do |method_name|
     it "delegates #{method_name} to strategy" do
       ChiScore::Repository.set_strategy(strategy)
-      strategy.should_receive(method_name)
+      expect(strategy).to receive(method_name)
 
       ChiScore::Repository.send(method_name)
     end
