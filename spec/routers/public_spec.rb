@@ -8,17 +8,17 @@ describe Routers::Public do
 
   let(:app) { Routers::Public }
 
-  before(:each) { app.any_instance.stub(:update_scores) }
+  before(:each) { allow_any_instance_of(app).to receive(:update_scores) }
 
   it "redirects if admin" do
-    app.any_instance.stub(:admin?) { true }
+    allow_any_instance_of(app).to receive(:admin?) { true }
     get "/"
     expect(last_response).to be_redirect
     expect(last_response.location).to include("/admin")
   end
 
   it "redirects if route doesn't exist" do
-    ChiScore::Routes.stub(:find).and_raise(KeyError)
+    allow(ChiScore::Routes).to receive(:find).and_raise(KeyError)
     get "/error"
     expect(last_response).to be_redirect
     expect(last_response.location).to eq("http://example.org/public")

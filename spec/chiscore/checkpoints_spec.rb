@@ -5,15 +5,15 @@ describe ChiScore::Checkpoints do
 
   describe ChiScore::Checkpoint do
     it "has an id" do
-      checkpoint.id.should == 1
+      expect(checkpoint.id).to eq(1)
     end
 
     it "has a name" do
-      checkpoint.name.should == "The Bottom Lounge"
+      expect(checkpoint.name).to eq("The Bottom Lounge")
     end
 
     it "has a role" do
-      checkpoint.role.should == "default"
+      expect(checkpoint.role).to eq("default")
     end
 
     it "has a list of all teams" do
@@ -29,12 +29,12 @@ describe ChiScore::Checkpoints do
       ChiScore::Teams.save(team1)
       ChiScore::Teams.save(team2)
 
-      checkpoint.all_teams.should == [team1]
+      expect(checkpoint.all_teams).to eq([team1])
     end
   end
 
   it "saves a checkpoint" do
     ChiScore::Checkpoints.save(checkpoint)
-    ChiScore::Checkpoints.find(checkpoint.id).should == checkpoint
+    expect(ChiScore::Checkpoints.find(checkpoint.id)).to eq(checkpoint)
   end
 end

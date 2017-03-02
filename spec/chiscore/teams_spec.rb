@@ -8,20 +8,20 @@ describe ChiScore::Teams do
 
   describe ChiScore::Team do
     it "has an id" do
-      team.id.should == "forty-two"
+      expect(team.id).to eq("forty-two")
     end
 
     it "has a name" do
-      team.name.should == "Dynasty"
+      expect(team.name).to eq("Dynasty")
     end
 
     it "has a route" do
-      team.route.should == 5
+      expect(team.route).to eq(5)
     end
 
     it "initalizes checkins/checkouts to empty list" do
-      team.checkins.should == []
-      team.checkouts.should == []
+      expect(team.checkins).to eq([])
+      expect(team.checkouts).to eq([])
     end
 
     describe "#<=>" do
@@ -50,12 +50,12 @@ describe ChiScore::Teams do
 
     it "gets teams with a given route" do
       route = double(:id => 5)
-      ChiScore::Teams.for_route(route).should == [team]
+      expect(ChiScore::Teams.for_route(route)).to eq([team])
     end
   end
 
   it "stores a team" do
     ChiScore::Teams.save(team)
-    ChiScore::Teams.find(team.id).should == team
+    expect(ChiScore::Teams.find(team.id)).to eq(team)
   end
 end

@@ -13,13 +13,13 @@ describe LeaderboardHelper do
       let(:status) { LeaderboardHelper::CheckinStatus.new(checkpoint, team, false) }
 
       before(:each) do
-        status.stub(:update_checkin_count)
-        ChiScore::Checkins.stub(:checkout_for).and_return(1)
-        ChiScore::Checkins.stub(:time_for).and_return(1)
+        allow(status).to receive(:update_checkin_count)
+        allow(ChiScore::Checkins).to receive(:checkout_for).and_return(1)
+        allow(ChiScore::Checkins).to receive(:time_for).and_return(1)
       end
 
       it "returns blank if checkin has not happened" do
-        status.stub(:find_time).and_return(0)
+        allow(status).to receive(:find_time).and_return(0)
         expect(status.evaluate).to eq("--")
       end
 
@@ -33,18 +33,18 @@ describe LeaderboardHelper do
       let(:status) { LeaderboardHelper::CheckinStatus.new(checkpoint, team, true) }
 
       before(:each) do
-        status.stub(:update_checkin_count)
-        ChiScore::Checkins.stub(:checkout_for).and_return(1)
-        ChiScore::Checkins.stub(:time_for).and_return(1)
+        allow(status).to receive(:update_checkin_count)
+        allow(ChiScore::Checkins).to receive(:checkout_for).and_return(1)
+        allow(ChiScore::Checkins).to receive(:time_for).and_return(1)
       end
 
       it "returns blank if checkin has not happened" do
-        status.stub(:find_time).and_return(0)
+        allow(status).to receive(:find_time).and_return(0)
         expect(status.evaluate).to eq("--")
       end
 
       it "returns checked_in_status if currently checked in" do
-        status.stub(:checked_out?).and_return(false)
+        allow(status).to receive(:checked_out?).and_return(false)
         expect(status.evaluate).to eq(status.html_output("green", checkin_time))
       end
 

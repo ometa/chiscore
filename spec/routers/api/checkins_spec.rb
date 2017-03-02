@@ -17,16 +17,16 @@ describe Routers::Api::Checkins do
   let(:team) { ChiScore::Team.new(:id => "team-id", :name => "Dynasty") }
 
   before {
-    ChiScore::Auth.stub(:login_auth) { true }
-    ChiScore::Checkpoints.stub(:find) { checkpoint }
-    ChiScore::Teams.stub(:find) { team }
-    ChiScore::Auth.stub(:admin_key) { "the-admin-key" }
+    allow(ChiScore::Auth).to receive(:login_auth) { true }
+    allow(ChiScore::Checkpoints).to receive(:find) { checkpoint }
+    allow(ChiScore::Teams).to receive(:find) { team }
+    allow(ChiScore::Auth).to receive(:admin_key) { "the-admin-key" }
   }
 
   context "#set_checkpoint" do
-    before { ChiScore::Checkins.stub(:times_for) }
+    before { allow(ChiScore::Checkins).to receive(:times_for) }
     it "checks the session for the checkpoint when checkpoint" do
-      ChiScore::Checkpoints.should_receive(:find).with("9999")
+      expect(ChiScore::Checkpoints).to receive(:find).with("9999")
 
       get "/",
         {"checkpoint" => "8888"},
@@ -34,9 +34,9 @@ describe Routers::Api::Checkins do
     end
 
     it "checks the params for the checkpoint when admin" do
-      app.any_instance.stub(:admin?) { true }
+      allow_any_instance_of(app).to receive(:admin?) { true }
 
-      ChiScore::Checkpoints.should_receive(:find).with("8888")
+      expect(ChiScore::Checkpoints).to receive(:find).with("8888")
 
       get "/",
         {"checkpoint" => "8888"},
@@ -46,99 +46,99 @@ describe Routers::Api::Checkins do
 
   it "gets the checkins for checkpoint" do
     times = { 'team-one' => 45, 'team-two' => 33 }
-    ChiScore::Checkins.stub(:times_for).with(checkpoint) { times }
+    allow(ChiScore::Checkins).to receive(:times_for).with(checkpoint) { times }
 
     get "/"
 
-    last_response.status.should == 200
-    last_response.body.should == times.to_json
+    expect(last_response.status).to eq(200)
+    expect(last_response.body).to eq(times.to_json)
   end
 
   it "posts the checkins for checkpoint" do
     times = { 'team-one' => 45, 'team-two' => 33 }
-    ChiScore::Checkins.stub(:times_for).with(checkpoint) { times }
+    allow(ChiScore::Checkins).to receive(:times_for).with(checkpoint) { times }
 
     post "/",
          {"checkpoint" => "1000"}
 
-    last_response.status.should == 200
-    last_response.body.should == times.to_json
+    expect(last_response.status).to eq(200)
+    expect(last_response.body).to eq(times.to_json)
   end
 
   it "creates a checkin for checkpoint" do
-    ChiScore::Checkins.should_receive(:checkin).with(checkpoint, team)
+    expect(ChiScore::Checkins).to receive(:checkin).with(checkpoint, team)
     post "/checkin", 'team_id' => "team-id"
-    last_response.body.should == {
+    expect(last_response.body).to eq({
       :success => true,
       :team => { :id => "team-id", :name => "Dynasty" },
       :time => 1500
-    }.to_json
+    }.to_json)
   end
 
   it "creates a checkin/checkout for the finish line" do
     finish_line_checkpoint = ChiScore::Checkpoint.new(1337, "Finish Line", "endpoint")
-    ChiScore::Checkpoints.stub(:find) { finish_line_checkpoint }
-    ChiScore::Checkins.should_receive(:checkin).with(finish_line_checkpoint, team)
+    allow(ChiScore::Checkpoints).to receive(:find) { finish_line_checkpoint }
+    expect(ChiScore::Checkins).to receive(:checkin).with(finish_line_checkpoint, team)
 
     post "/checkin", 'team_id' => "team-id"
   end
 
   it "returns an error and gives the location if the team is locked" do
-    ChiScore::Checkins.stub(:checkin).and_raise(ChiScore::Checkins::LockedCheckinAttempt)
-    ChiScore::Checkins.stub(:active).and_return(["team-id"])
-    ChiScore::Repository.stub(:time_for).and_return("time-remaining")
+    allow(ChiScore::Checkins).to receive(:checkin).and_raise(ChiScore::Checkins::LockedCheckinAttempt)
+    allow(ChiScore::Checkins).to receive(:active).and_return(["team-id"])
+    allow(ChiScore::Repository).to receive(:time_for).and_return("time-remaining")
 
     post "/checkin", 'team_id' => "team-id"
 
-    last_response.body.should == {
+    expect(last_response.body).to eq({
       :success => false,
       :checkpoint => {:id => "1", :name => "The Bottom Lounge"},
       :time => "time-remaining"
-    }.to_json
+    }.to_json)
   end
 
   it "creates a checkout for checkpoint" do
-    ChiScore::Checkins.should_receive(:checkout).with(checkpoint, team, false)
+    expect(ChiScore::Checkins).to receive(:checkout).with(checkpoint, team, false)
     post "/checkout", 'team_id' => "team-id"
-    last_response.body.should == {
+    expect(last_response.body).to eq({
       :success => true,
       :team => { :id => "team-id", :name => "Dynasty" }
-    }.to_json
+    }.to_json)
   end
 
   it "returns an error if the checkout is too early" do
-    ChiScore::Checkins.stub(:checkout).and_raise(ChiScore::Checkins::EarlyCheckout)
+    allow(ChiScore::Checkins).to receive(:checkout).and_raise(ChiScore::Checkins::EarlyCheckout)
     post "/checkout", 'team_id' => "team-id"
-    last_response.body.should == { :success => false }.to_json
+    expect(last_response.body).to eq({ :success => false }.to_json)
   end
 
   it "does not return an error if the checkout is too early and current user is admin" do
-    ChiScore::Checkins.should_receive(:checkout).with(checkpoint, team, true)
+    expect(ChiScore::Checkins).to receive(:checkout).with(checkpoint, team, true)
 
-    app.any_instance.stub(:admin?) { true }
+    allow_any_instance_of(app).to receive(:admin?) { true }
 
     post "/checkout", {'team_id' => "team-id"}
 
-    last_response.body.should == {
+    expect(last_response.body).to eq({
       :success => true,
       :team => { :id => "team-id", :name => "Dynasty" }
-    }.to_json
+    }.to_json)
   end
 
   it "destroys a checkin if admin" do
-    app.any_instance.stub(:admin?) { true }
+    allow_any_instance_of(app).to receive(:admin?) { true }
     post "/destroy", { 'team_id' => "team-id", 'checkpoint' => "1000" }
 
-    last_response.body.should == {
+    expect(last_response.body).to eq({
       :destroyed => true,
       :team => { :id => "team-id", :name => "Dynasty" }
-    }.to_json
+    }.to_json)
   end
 
   it "does not destory a checkin if not admin" do
     post "/destroy", { 'team_id' => "team-id" }
 
-    last_response.body.should == { :destroyed => false }.to_json
+    expect(last_response.body).to eq({ :destroyed => false }.to_json)
   end
 
   it "gets all the checkins/checkouts for checkpoint" do
@@ -150,12 +150,12 @@ describe Routers::Api::Checkins do
       'team-two' => [in_time, out_time]
     }
 
-    Routers::Router.stub(:require_auth! => checkins)
+    allow(Routers::Router).to receive_messages(:require_auth! => checkins)
 
-    ChiScore::Checkins.should_receive(:all_for).with(checkpoint) { checkins }
+    expect(ChiScore::Checkins).to receive(:all_for).with(checkpoint) { checkins }
 
     get "/all"
 
-    last_response.body.should == checkins.to_json
+    expect(last_response.body).to eq(checkins.to_json)
   end
 end
