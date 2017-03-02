@@ -4,7 +4,6 @@
 
     <table>
       <tr>
-        <th>Team ID</th>
         <th>Team Name</th>
         <% route.checkpoints.each do |checkpoint| %>
           <th> <%= checkpoint.name %> </th>
@@ -13,7 +12,6 @@
 
       <% route.teams.sort.each do |team| %>
         <tr>
-          <td><%= team.id %></td>
           <td><%= team.name %></td>
           <% route.checkpoints.each do |checkpoint| %>
             <td>
