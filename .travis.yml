@@ -1,12 +1,17 @@
 language: ruby
+
 rvm:
   - 2.3.1
+
 services:
   - redis-server
+
 before_install:
-  #- npm install -g grunt-cli
   - npm install
+
 script:
   - bundle exec rake spec
   - grunt spec
 
+after_success:
+  - bundle exec codeclimate-test-reporter
