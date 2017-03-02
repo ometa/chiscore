@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'routers/helpers/leaderboard_helper'
 
 describe LeaderboardHelper do
-  let(:checkin_time) { "06:00 pm" }
+  let(:checkin_time) { Time.at(1).strftime("%I:%M %P") }
   let(:checkpoint) { double("Checkpoint", :id => 1)}
   let(:team) { double("Team", :id => 1, :checkin_count => 1)}
 
