@@ -3,6 +3,9 @@
 *.log
 .bundle
 
+# simplecov
+coverage
+
 node_modules
 .grunt
 spec/javascript/target

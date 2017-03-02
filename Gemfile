@@ -9,4 +9,6 @@ gem "puma"
 group :test do
   gem 'rspec'
   gem 'rack-test'
+  gem 'simplecov'
+  gem 'codeclimate-test-reporter'
 end
