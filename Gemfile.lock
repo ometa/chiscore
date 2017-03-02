@@ -2,6 +2,8 @@ GEM
   remote: https://rubygems.org/
   specs:
     diff-lcs (1.2.5)
+    docile (1.1.5)
+    json (2.0.3)
     puma (3.7.1)
     rack (1.6.4)
     rack-protection (1.5.3)
@@ -23,6 +25,11 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.4.0)
     rspec-support (3.4.1)
+    simplecov (0.13.0)
+      docile (~> 1.1.0)
+      json (>= 1.8, < 3)
+      simplecov-html (~> 0.10.0)
+    simplecov-html (0.10.0)
     sinatra (1.4.7)
       rack (~> 1.5)
       rack-protection (~> 1.4)
@@ -38,6 +45,7 @@ DEPENDENCIES
   rake
   redis
   rspec
+  simplecov
   sinatra
 
 RUBY VERSION
