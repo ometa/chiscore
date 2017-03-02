@@ -16,3 +16,10 @@ task :gen_secrets do
   File.open("./config/secret_key", "w+") { |file| file << SecureRandom.hex(24) + "\n" }
   File.open("./config/admin_key", "w+") { |file| file << SecureRandom.hex(24) + "\n" }
 end
+
+# DANGER!
+task :redis_flushdb do
+  require 'chiscore/repository/redis_strategy'
+  redis = ChiScore::RedisStrategy.redis
+  redis.flushdb
+end

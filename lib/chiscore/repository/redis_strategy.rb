@@ -1,4 +1,5 @@
 require 'redis'
+require 'uri'
 
 module ChiScore
   class RedisStrategy
@@ -75,7 +76,8 @@ module ChiScore
 
     def self.redis
       if ENV['REDISTOGO_URL']
-        @_redis_client ||= Redis.new(ENV["REDISTOGO_URL"])
+        uri = ::URI.parse(ENV["REDISTOGO_URL"])
+        @_redis_client ||= Redis.new(:host => uri.host, :port => uri.port, :password => uri.password)
       else
         @_redis_client ||= Redis.new
       end

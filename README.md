@@ -112,6 +112,10 @@ Remove compiled JS targets:
 
     grunt clean
 
+### Rake Tasks
+
+    rake redis_flushdb            # flush the connected redis database
+
 ### Development Login
 
 - Use a username and password from `config/data/:year/logins.csv`
