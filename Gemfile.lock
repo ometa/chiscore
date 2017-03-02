@@ -1,6 +1,8 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    codeclimate-test-reporter (1.0.6)
+      simplecov
     diff-lcs (1.2.5)
     docile (1.1.5)
     json (2.0.3)
@@ -40,6 +42,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  codeclimate-test-reporter
   puma
   rack-test
   rake
