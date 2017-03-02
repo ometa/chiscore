@@ -1,5 +1,8 @@
 # chiscore
 
+[![Code Climate](https://codeclimate.com/github/chiditarod/chiscore/badges/gpa.svg)](https://codeclimate.com/github/chiditarod/chiscore)
+[![Test Coverage](https://codeclimate.com/github/chiditarod/chiscore/badges/coverage.svg)](https://codeclimate.com/github/chiditarod/chiscore/coverage)
+
 _Timekeeping and Scoring application for the CHIditarod._
 
 ## Requirements
