@@ -56,17 +56,35 @@
     };
 
     CheckinView.prototype.checkout = function(ev) {
-      return ChiScore.Services.checkOutTeam(this.getTeam().id, (function(_this) {
-        return function(response) {
-          if (response.success) {
-            return _this.$el.slideUp(100, function() {
-              return $(this).remove();
-            });
-          } else {
-            return alert("You can't check out that team yet!");
-          }
-        };
-      })(this));
+      var time;
+      time = this.checkin.get('time');
+      if (time < 1300) {
+        return ChiScore.Services.checkOutTeam(this.getTeam().id, (function(_this) {
+          return function(response) {
+            if (response.success) {
+              return _this.$el.slideUp(100, function() {
+                return $(this).remove();
+              });
+            } else {
+              return alert("You can't check out that team yet!");
+            }
+          };
+        })(this));
+      } else {
+        if (confirm("Are you sure you want to DELETE this checkin? This should only be done if they were checked in by mistake.")) {
+          return ChiScore.Services.deleteCheckin(null, this.getTeam().id, (function(_this) {
+            return function(response) {
+              if (response.destroyed === true) {
+                return _this.$el.slideUp(100, function() {
+                  return $(this).remove();
+                });
+              } else {
+                return alert("You can't delete this checkin");
+              }
+            };
+          })(this));
+        }
+      }
     };
 
     CheckinView.prototype.flag = function(ev) {

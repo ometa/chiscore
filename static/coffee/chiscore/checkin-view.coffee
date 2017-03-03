@@ -31,11 +31,21 @@ class ChiScore.CheckinView extends Backbone.View
     if time <= 0 then 'out' else 'warning'
 
   checkout: (ev) ->
-    ChiScore.Services.checkOutTeam this.getTeam().id, (response) =>
-      if response.success
-        this.$el.slideUp 100, -> $(this).remove()
-      else
-        alert("You can't check out that team yet!")
+    time = this.checkin.get('time')
+
+    if time < 1300
+      ChiScore.Services.checkOutTeam this.getTeam().id, (response) =>
+        if response.success
+          this.$el.slideUp 100, -> $(this).remove()
+        else
+          alert("You can't check out that team yet!")
+    else
+      if confirm("Are you sure you want to DELETE this checkin? This should only be done if they were checked in by mistake.")
+        ChiScore.Services.deleteCheckin null, this.getTeam().id, (response) =>
+          if response.destroyed is true
+            this.$el.slideUp 100, -> $(this).remove()
+          else
+            alert("You can't delete this checkin")
 
   flag: (ev) ->
     if confirm("Are you sure you want to flag this team? :)")

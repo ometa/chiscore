@@ -14,6 +14,11 @@ ChiScore.util =
     minutes = "0" + minutes if minutes < 10
     "#{minutes}:#{seconds}"
 
+  canEarlyCheckout: (checkin) ->
+    minutes = Math.floor(time / 60)
+    return minutes <= 4
+
+
 ChiScore.main = ->
   return unless $('ul#checkins').length > 0
 
