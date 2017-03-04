@@ -52,7 +52,7 @@ module ChiScore
 
       def early?(team)
         time = Repository.lock(team.id)
-        time >= 60 && time != -2
+        time != -2 && time >= 60
       end
 
       def all_for(checkpoint)
@@ -82,7 +82,10 @@ module ChiScore
       end
 
       def destroy_checkin(checkpoint, team, admin)
-        raise IllegalDestroy if !admin
+        if Repository.lock(team.id) <= 1300 && !admin
+          raise IllegalDestroy
+        end
+
         Repository.destroy_checkin!(checkpoint.id, team.id)
       end
     end

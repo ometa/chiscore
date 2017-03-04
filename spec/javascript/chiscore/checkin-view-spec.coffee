@@ -41,6 +41,25 @@ describe 'ChiScore.CheckinView', ->
     expect(view.$el.find('.team-time').text()).toEqual('01:58')
     expect(view.$el.find('.team-time')).toHaveClass('warning')
 
+  it 'deletes a team check-in if remaining time is above 21:00', ->
+    view.render()
+
+    spyOn(window, "confirm").and.returnValue(true)
+
+    removeTeam = spyOn($.fn, "slideUp").and.callFake (time, fn) ->
+      expect(time).toEqual(100)
+      fn()
+
+    checkin.set('time', 1301)
+
+    destroySpy = spyOn(ChiScore.Services, "deleteCheckin").and.callFake (cId, id, fn) ->
+      fn({ destroyed: true })
+
+    view.$el.find('.check-out-link').trigger('click')
+
+    expect(destroySpy).toHaveBeenCalledWith(null, 'team-id', jasmine.any(Function))
+    expect(removeTeam).toHaveBeenCalled()
+
   it 'checks out a team', ->
     view.render()
 

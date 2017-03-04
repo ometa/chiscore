@@ -12,7 +12,7 @@ __p += '<li data-team-id="' +
 '</span>\n  <span class="team-time">\n    ' +
 ((__t = ( ChiScore.util.displayableTime(checkin.time) )) == null ? '' : __t) +
 '\n  </span>\n\n  ';
- if(!ChiScore.isPublic) { ;
+ if(!ChiScore.isPublic || ChiScore.canEarlyCheckout(checkin.time)) { ;
 __p += '\n    <div class="check-out-link">&#x2715;</div>\n  ';
  } ;
 __p += '\n</li>\n';

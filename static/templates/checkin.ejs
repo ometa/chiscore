@@ -5,7 +5,7 @@
     <%= ChiScore.util.displayableTime(checkin.time) %>
   </span>
 
-  <% if(!ChiScore.isPublic) { %>
+  <% if(!ChiScore.isPublic || ChiScore.canEarlyCheckout(checkin.time)) { %>
     <div class="check-out-link">&#x2715;</div>
   <% } %>
 </li>

@@ -23,6 +23,11 @@
         minutes = "0" + minutes;
       }
       return "" + minutes + ":" + seconds;
+    },
+    canEarlyCheckout: function(checkin) {
+      var minutes;
+      minutes = Math.floor(time / 60);
+      return minutes <= 4;
     }
   };
 
