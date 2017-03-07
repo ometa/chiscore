@@ -1,5 +1,6 @@
 $: << File.join(File.dirname(__FILE__), "lib")
 
+
 if ENV['RACK_ENV'] != 'production'
   require 'rspec/core/rake_task'
 
@@ -22,4 +23,9 @@ task :redis_flushdb do
   require 'chiscore/repository/redis_strategy'
   redis = ChiScore::RedisStrategy.redis
   redis.flushdb
+end
+
+task "export" do
+  require 'chiscore/support/data_exporter'
+  ChiScore::DataExporter.new.export
 end
