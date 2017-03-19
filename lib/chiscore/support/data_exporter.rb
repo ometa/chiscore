@@ -13,48 +13,78 @@ require 'chiscore/support/data_importer'
 ChiScore::Repository.set_strategy(ChiScore::RedisStrategy)
 ChiScore::DataImporter.import_for(2017)
 
+unless ENV['OUTPUT']
+  puts "You must supply the OUTPUT environment variable with a value of 'csv' or 'html'"
+  exit 1
+end
+
+# TODO: when there's no total time for a team, it reports '05:37:54'. It should report 'Did Not Finish'
+# TODO: when there's no checkin time for a checkpoint, it reports '12:22:06'. It should report '--'
+
 module ChiScore
   class DataExporter
 
     def export
-      results = ChiScore::Teams.all.map do |team|
-        values_for(team)
-      end.compact
-
-      csv_str = CSV.generate do |csv|
-        results.each { |row| csv << row }
-      end
-
       puts
       puts
       puts "Delete anything above this line (including this line)"
-      puts csv_str
+      puts format(get_values)
+    end
+
+    def get_values
+      all = ChiScore::Teams.all.map do |team|
+        values_for(team)
+      end.compact
+
+      all.sort_by! do |row|
+        row.last
+      end
+
+      all.map! do |row|
+        row.slice!(0..-2)
+      end
+    end
+
+    def format(results)
+      case ENV['OUTPUT']
+      when 'csv'
+        CSV.generate do |csv|
+          results.each { |row| csv << row }
+        end
+      when 'html'
+        results.inject("") do |memo, row|
+          memo << "<tr><td>" + row.join("</td><td>") + "</td></tr>\n"
+        end
+      end
     end
 
     def values_for(team)
       values = [
         team.id,
-        team.name,
-        timezone,
-        fmt_time(race_start_time)
+        team.name
       ]
 
       begin
         route = ChiScore::Routes.find(team.route)
-      rescue KeyError => e
+      rescue KeyError
         return
       end
 
-      route.checkpoints.each do |checkpoint|
-        checkin_time = ChiScore::Checkins.time_for(checkpoint, team)
-        values << fmt_time(checkin_time)
+      unless ENV['SUMMARY']
+        values << timezone
+        values << fmt_time(race_start_time)
+
+        route.checkpoints.each do |checkpoint|
+          checkin_time = ChiScore::Checkins.time_for(checkpoint, team)
+          values << fmt_time(checkin_time)
+        end
       end
 
       team_finish = ChiScore::Checkins.time_for(finish_checkpoint, team)
       total_time = Time.at(team_finish) - race_start_time
       fmt_total = total_time ? fmt_time(Time.at(total_time).utc) : ""
 
-      return values + [fmt_total]
+      values + [fmt_total, total_time]
     end
 
     def timezone
@@ -66,7 +96,7 @@ module ChiScore
     end
 
     def race_start_time
-      @_start_time ||= Time.at(ChiScore::Repository.fetch_race_start || 0)
+      @_start_time ||= Time.at((ChiScore::Repository.fetch_race_start || 0).to_i)
     end
 
     def finish_checkpoint
