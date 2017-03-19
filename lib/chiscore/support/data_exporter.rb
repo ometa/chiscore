@@ -66,7 +66,7 @@ module ChiScore
     end
 
     def race_start_time
-      @_start_time ||= Time.at(ChiScore::Repository.fetch_race_start || 0)
+      @_start_time ||= Time.at((ChiScore::Repository.fetch_race_start || 0).to_i)
     end
 
     def finish_checkpoint
