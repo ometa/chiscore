@@ -22,7 +22,7 @@
       if (minutes < 10) {
         minutes = "0" + minutes;
       }
-      return "" + minutes + ":" + seconds;
+      return minutes + ":" + seconds;
     },
     canEarlyCheckout: function(checkin) {
       var minutes;

@@ -1,14 +1,14 @@
 (function() {
   var appendCheckin,
-    __hasProp = {}.hasOwnProperty,
-    __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
+    extend = function(child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
+    hasProp = {}.hasOwnProperty;
 
   appendCheckin = function(el, checkin) {
     return el.append(checkin.render());
   };
 
-  ChiScore.SubmitView = (function(_super) {
-    __extends(SubmitView, _super);
+  ChiScore.SubmitView = (function(superClass) {
+    extend(SubmitView, superClass);
 
     function SubmitView() {
       return SubmitView.__super__.constructor.apply(this, arguments);
@@ -45,8 +45,8 @@
 
   })(Backbone.View);
 
-  ChiScore.BoardView = (function(_super) {
-    __extends(BoardView, _super);
+  ChiScore.BoardView = (function(superClass) {
+    extend(BoardView, superClass);
 
     function BoardView(options) {
       this.setElement(options.el || $('ul#checkins'));
