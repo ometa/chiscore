@@ -1,15 +1,14 @@
-language: ruby
+language: node_js
 
-rvm:
-  - 2.5.0
+node_js:
+  - 6
+  - 8
 
 services:
   - redis-server
 
-cache: yarn
-
 before_install:
-  - npm install
+  - rvm install 2.5.0
 
 script:
   - bundle exec rake spec
