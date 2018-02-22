@@ -5,6 +5,7 @@
   "dependencies" : {},
   "devDependencies": {
     "grunt" : "1.x",
+    "grunt-cli" : "1.x",
     "grunt-contrib-jst" : "1.x",
     "grunt-contrib-coffee" : "1.x",
     "grunt-contrib-jasmine": "1.x",

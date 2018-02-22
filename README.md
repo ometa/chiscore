@@ -1,5 +1,6 @@
 # chiscore
 
+[![Build Status](https://travis-ci.org/chiditarod/chiscore.svg?branch=master)](https://travis-ci.org/chiditarod/chiscore)
 [![Code Climate](https://codeclimate.com/github/chiditarod/chiscore/badges/gpa.svg)](https://codeclimate.com/github/chiditarod/chiscore)
 [![Test Coverage](https://codeclimate.com/github/chiditarod/chiscore/badges/coverage.svg)](https://codeclimate.com/github/chiditarod/chiscore/coverage)
 
@@ -8,12 +9,12 @@ _Timekeeping and Scoring application for the CHIditarod._
 ## Requirements
 
 - Redis
-- Ruby
-- Node.js
+- Ruby (`2.5.0`)
+- Node.js (`6.13.0`, `8.9.4`)
 
 ## Architecture
 
-Chiscore consists of client and server components.  The server is
+chiscore consists of client and server components.  The server is
 written in Ruby and uses Sinatra.  The client-side is Node.js.
 
 The application requires a secret key and an admin key in order to
@@ -29,36 +30,37 @@ leiu of the files on disk.
 
 _Assumes you are using OSX. Pull requests for other setups gladly accepted._
 
-### Setup Daemons and Environment
+### Environment
 
 - Install [homebrew](http://brew.sh/).
 - [Install rbenv](https://github.com/rbenv/rbenv#homebrew-on-mac-os-x) using homebrew.
 - Install prequisites and clone the code:
 
 ```bash
+brew install redis # or use docker
 brew install ruby-build
-rbenv install 2.3.1
-brew install redis
+rbenv install 2.5.0
 git clone github.com:chiditarod/chiscore
 cd chiscore
 ```
 
-### Server
+### Server Setup
 
 ```bash
 gem install bundler
 bundle install
-bundle exec rake gen_secrets # generate secret keys
+bundle exec rake gen_secrets     # generate secret keys
 ```
 
-### Client
+### Client Setup
 
-You need node.js for compilation and running of JavaScript specs
+You need node.js for compilation and running of JavaScript specs.
 
 ```bash
 brew install node
-npm install -g grunt-cli # the grunt-cli may require sudo.
-npm install
+npm install -g n           # n is an easy node version switcher
+sudo n 8.9.4               # install node version 8.9.4, for example
+yarn
 ```
 
 ## Deployment to Heroku
@@ -86,13 +88,13 @@ Start redis:
 
     redis-server
 
-Start the server:
-
-    bundle exec rackup # or `unicorn` if you're into that
-
 Run the ruby unit test suite:
 
     bundle exec rake
+
+Start the server:
+
+    bundle exec rackup
 
 ### Client
 
