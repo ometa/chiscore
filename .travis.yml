@@ -6,6 +6,8 @@ rvm:
 services:
   - redis-server
 
+cache: yarn
+
 before_install:
   - npm install
 
