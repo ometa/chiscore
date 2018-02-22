@@ -1,15 +1,21 @@
-language: ruby
+language: node_js
 
-rvm:
-  - 2.5.0
+cache:
+  yarn: true
+  directories:
+   - /home/travis/.rvm/
+
+node_js:
+  - 6
+  - 8
 
 services:
   - redis-server
 
-cache: yarn
-
 before_install:
-  - npm install
+  - rvm install 2.5.0
+  - gem install bundler
+  - bundle install
 
 script:
   - bundle exec rake spec
