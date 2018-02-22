@@ -5,12 +5,12 @@
     }
 
     CheckinBoardView.prototype.init = function(board) {
-      var checkin, _i, _len, _ref;
+      var checkin, i, len, ref;
       this.board = board;
       this.reset();
-      _ref = this.board.checkins;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        checkin = _ref[_i];
+      ref = this.board.checkins;
+      for (i = 0, len = ref.length; i < len; i++) {
+        checkin = ref[i];
         this.appendCheckin(checkin);
       }
       this.bindCheckout();
@@ -18,12 +18,12 @@
     };
 
     CheckinBoardView.prototype.sync = function(board) {
-      var checkin, _i, _len, _ref;
+      var checkin, i, len, ref;
       this.board = board;
       this.reset();
-      _ref = this.board.checkins;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        checkin = _ref[_i];
+      ref = this.board.checkins;
+      for (i = 0, len = ref.length; i < len; i++) {
+        checkin = ref[i];
         this.appendCheckin(checkin);
       }
       return this.bindCheckout();
@@ -131,19 +131,19 @@
     };
 
     CheckinBoard.prototype.tick = function() {
-      var checkin, _i, _len, _ref, _results;
-      _ref = this.checkins;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        checkin = _ref[_i];
+      var checkin, i, len, ref, results;
+      ref = this.checkins;
+      results = [];
+      for (i = 0, len = ref.length; i < len; i++) {
+        checkin = ref[i];
         if (checkin.time > 0) {
           checkin.time -= 1;
-          _results.push(this.view.update(checkin));
+          results.push(this.view.update(checkin));
         } else {
-          _results.push(void 0);
+          results.push(void 0);
         }
       }
-      return _results;
+      return results;
     };
 
     CheckinBoard.prototype.createCheckin = function(teamId) {

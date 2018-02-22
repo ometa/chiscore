@@ -5,10 +5,10 @@
     }
 
     ActiveBoardView.prototype.init = function(checkpoint) {
-      var checkin, _i, _len, _ref;
-      _ref = checkpoint.checkins;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        checkin = _ref[_i];
+      var checkin, i, len, ref;
+      ref = checkpoint.checkins;
+      for (i = 0, len = ref.length; i < len; i++) {
+        checkin = ref[i];
         this.appendCheckin(checkin, checkpoint);
       }
       this.bindCheckout();
@@ -79,9 +79,9 @@
   })();
 
   ChiScore.ActiveBoard = (function() {
-    function ActiveBoard(checkpointId) {
+    function ActiveBoard(checkpointId1) {
       var checkpointElement;
-      this.checkpointId = checkpointId;
+      this.checkpointId = checkpointId1;
       checkpointElement = $("ul#checkpoint" + this.checkpointId);
       this.checkins = [];
       this.view = new ChiScore.ActiveBoardView(checkpointElement);
