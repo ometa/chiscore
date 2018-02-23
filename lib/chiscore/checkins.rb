@@ -8,6 +8,9 @@ module ChiScore
     EarlyCheckout        = Class.new(StandardError)
     IllegalDestroy       = Class.new(StandardError)
 
+    CHECKIN_LENGTH = 1500 # 25 minutes
+    DESTROY_CHECKIN_TIMEFRAME = CHECKIN_LENGTH - 300 # 5 minutes
+
     class << self
       def checkin(checkpoint, team, *args)
         raise LockedCheckinAttempt if locked?(team)
@@ -82,7 +85,7 @@ module ChiScore
       end
 
       def destroy_checkin(checkpoint, team, admin)
-        if Repository.lock(team.id) <= 1300 && !admin
+        if Repository.lock(team.id) <= DESTROY_CHECKIN_TIMEFRAME && !admin
           raise IllegalDestroy
         end
 
