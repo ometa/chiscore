@@ -3,24 +3,32 @@
   <form id="checkin" type="post">
     <h2>Check-In at <%= checkpoint.name %></h2>
 
+    <div id="check-in-reminder">
+      <strong>Important:&nbsp;</strong>Click "Check In" to complete the check in for this team.
+    </div>
+
     <select id="team_checkin" name="team-number" placeholder="Enter a team name or number" class='select2 sign-up-input'>
       <option></option>
       <% select2_data.each do |d| %>
         <option value="<%= d[0] %>"><%= "#{d[0]} - #{d[1]}" %></option>
       <% end %>
     </select>
-
     <input name="submit" type="submit" value="Check In" class="button submit-button">
   </form>
 </div>
+
+
 
 <ul id="checkins"></ul>
 
 <script type="text/javascript">
   $(document).ready(function() {
-    $("#team_checkin").select2({
-      placeholder: "Select a team",
-      allowClear: true
-    });
+    var input = $("#team_checkin")
+    var reminder = $('#check-in-reminder');
+    var form = $('form#checkin');
+
+    input.select2({ placeholder: "Select a team", allowClear: true });
+    input.on('select2:select', function() { reminder.show() });
+    form.on('submit', function() { reminder.hide() });
   });
 </script>
