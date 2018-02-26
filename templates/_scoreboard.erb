@@ -2,15 +2,16 @@
   <% routes.each do |route| %>
     <h2><%= "Route #{route.id}" %></h2>
 
-    <table>
-      <tr>
-        <th>Id</th>
-        <th>Team Name</th>
-        <% route.checkpoints.each do |checkpoint| %>
-          <th> <%= checkpoint.name %> </th>
-        <% end %>
-      </tr>
-
+    <table class="table table-bordered" id="checkins">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Team Name</th>
+          <% route.checkpoints.each do |checkpoint| %>
+            <th> <%= checkpoint.name %> </th>
+          <% end %>
+        </tr>
+      </thead>
       <% route.teams.sort.each do |team| %>
         <tr>
           <td><%= team.id %></td>
@@ -22,7 +23,12 @@
           <% end %>
         </tr>
       <% end %>
-
     </table>
   <% end %>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('.table').DataTable({bFilter: false, bInfo: false, bPaginate: false});
+    } );   
+</script>
