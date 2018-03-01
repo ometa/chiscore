@@ -1,12 +1,15 @@
-<table>
-  <tr>
-    <th>Id</th>
-    <th>Team</th>
-    <th>In</th>
-    <th>Out</th>
-  </tr>
+<table class="table table-bordered" id="allCheckins">
+  <thead>
+    <tr>
+      <th>Id</th>
+      <th>Team</th>
+      <th>In</th>
+      <th>Out</th>
+    </tr>
+  </thead>
 
-  <% checkins.each do |checkin| %>
+<tbody>
+    <% checkins.each do |checkin| %>
     <tr>
       <td><%= checkin[:team][:id] %></td>
       <td><%= checkin[:team][:name] %></td>
@@ -19,5 +22,11 @@
       </td>
     </tr>
   <% end %>
-
+</tbody>
 </table>
+
+  <script>
+      $(document).ready(function() {
+          $('#allCheckins').DataTable({bFilter: false, bInfo: false, bPaginate: false});
+      } );   
+  </script>
