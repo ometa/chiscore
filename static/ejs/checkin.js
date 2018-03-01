@@ -7,7 +7,7 @@ function print() { __p += __j.call(arguments, '') }
 with (obj) {
 __p += '<li data-team-id="' +
 ((__t = ( checkin.team.id )) == null ? '' : __t) +
-'">\r\n  <span class="smiley">☺ </span>\r\n  <span class="team-id">' +
+'">\r\n  <span class="smiley">&#x1F642;  </span>\r\n  <span class="team-id">' +
 ((__t = ( checkin.team.id )) == null ? '' : __t) +
 '</span>\r\n  <span class="team-name">' +
 ((__t = ( checkin.team.name )) == null ? '' : __t) +
