@@ -80,16 +80,16 @@ describe ChiScore::Checkins do
     expect(ChiScore::Checkins.destroy_checkin(checkpoint, team, true)).to eq("destroyed")
   end
 
-  it "returns an Illegal Destroy error if not admin" do
-    allow(repo).to receive(:lock).with("team-id") { 100 }
+  it "returns an Illegal Destroy error if not admin, and past expiration" do
+    allow(repo).to receive(:lock).with("team-id") { 1199 }
 
     expect{
       ChiScore::Checkins.destroy_checkin(checkpoint, team, false)
     }.to raise_error ChiScore::Checkins::IllegalDestroy
   end
 
-  it "does not raise error if there are fewer than 4 minutes expired from check-in time" do
-    allow(repo).to receive(:lock).with("team-id") { 1301 }
+  it "does not raise error if fewer than 5min expired" do
+    allow(repo).to receive(:lock).with("team-id") { 1201 }
     allow(repo).to receive(:destroy_checkin!) { "destroyed" }
 
     expect(
