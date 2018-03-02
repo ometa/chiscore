@@ -34,10 +34,11 @@ _Assumes you are using OSX. Pull requests for other setups gladly accepted._
 
 - Install [homebrew](http://brew.sh/).
 - [Install rbenv](https://github.com/rbenv/rbenv#homebrew-on-mac-os-x) using homebrew.
+- (optional, recommended) Install docker 
 - Install prequisites and clone the code:
 
 ```bash
-brew install redis # or use docker
+brew install redis # skip if using docker
 brew install ruby-build
 rbenv install 2.5.0
 git clone github.com:chiditarod/chiscore
@@ -86,15 +87,16 @@ yarn
 
 Start redis:
 
-    redis-server
-
-Run the ruby unit test suite:
-
-    bundle exec rake
+    docker-compose up -d redis
+    # or 'redis-server', etc
 
 Start the server:
 
     bundle exec rackup
+
+Run the ruby unit test suite:
+
+    bundle exec rake
 
 ### Client
 
