@@ -350,10 +350,23 @@ select.select2.sign-up-input {
   margin-right: .75%;
  }
 
+#check-in-reminder-container { height: 1.5em; }
+
 #check-in-reminder {
   margin-left: 0.25em;
   color: #d22027;
-  display: none;
+  background-color: #d22027;
+}
+
+#check-in-reminder.visible {
+  background-color: white;
+  transition: background-color 0.25s;
+  opacity: 1;
+}
+
+#check-in-reminder.hidden {
+  opacity: 0;
+  transition: opacity 0.25s linear;
 }
 
 input[type="tel"],
