@@ -10,8 +10,13 @@ require 'chiscore/repository'
 require 'chiscore/repository/redis_strategy'
 require 'chiscore/support/data_importer'
 
+unless ENV['YEAR']
+  puts "YEAR environment variable is required.  e.g. YEAR=2018"
+  exit 1
+end
+
 ChiScore::Repository.set_strategy(ChiScore::RedisStrategy)
-ChiScore::DataImporter.import_for(2017)
+ChiScore::DataImporter.import_for(ENV['YEAR'])
 
 unless ENV['OUTPUT']
   puts "You must supply the OUTPUT environment variable with a value of 'csv' or 'html'"

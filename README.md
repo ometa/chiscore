@@ -120,6 +120,8 @@ Remove compiled JS targets:
 
     rake redis_flushdb            # flush the connected redis database
 
+    YEAR=2018 rake export         # export the timing data from redis
+
 ### Development Login
 
 - Use a username and password from `config/data/:year/logins.csv`
