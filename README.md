@@ -120,6 +120,15 @@ Remove compiled JS targets:
 
     rake redis_flushdb            # flush the connected redis database
 
+### Manually add a checkin
+
+    > hset "checkins:6" 1617 1520117160
+
+## Export
+
+   YEAR=2018 OUTPUT=HTML SUMMARY=true rake export         # export nice HTML table lines
+   YEAR=2018 OUTPUT=CSV rake export                       # export all timing data from redis
+
 ### Development Login
 
 - Use a username and password from `config/data/:year/logins.csv`
