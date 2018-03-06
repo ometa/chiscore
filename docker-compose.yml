@@ -1,14 +1,16 @@
 version: "3.3"
 services:
   redis:
-    image: redis:3-alpine
-    command: redis-server --appendonly yes
+    image: redis:4-alpine
+    #command: redis-server --appendonly yes
+    command: redis-server /etc/redis.conf
     networks:
       - web
     ports:
       - "6379:6379"
     volumes:
       - redis_cache:/data
+      - ./docker/redis.conf:/etc/redis.conf
 
 networks:
   web:
