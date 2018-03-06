@@ -100,7 +100,7 @@ Run the ruby unit test suite:
 
 ### Client
 
-Run the JavaScript spec suite:
+Run the frontend tests:
 
     grunt spec
 
@@ -112,13 +112,34 @@ Watch and compile coffee and EJS templates:
 
     grunt watch
 
-Remove compiled JS targets:
+Clean:
 
     grunt clean
 
-### Rake Tasks
+## Redis Operations
+
+### Restore
+
+___Caution: Destructive___
+
+    docker-compose up -d redis
+    docker cp dump.rdb $(docker-compose ps -q redis):/data/dump.rdb
+    docker-compose restart redis
+
+### Flush Redis DB
+
+___Caution: Destructive___
 
     rake redis_flushdb            # flush the connected redis database
+
+### Manually add a checkin
+
+    > hset "checkins:6" 1617 1520117160
+
+## Export
+
+   YEAR=2018 OUTPUT=HTML SUMMARY=true rake export         # export nice HTML table lines
+   YEAR=2018 OUTPUT=CSV rake export                       # export all timing data from redis
 
 ### Development Login
 

@@ -38,7 +38,12 @@ module ChiScore
     end
 
     def self.team_checkin(checkpoint_id, team_id)
-      redis.hget("checkins:#{checkpoint_id}", team_id.to_s).to_i
+      val = redis.hget("checkins:#{checkpoint_id}", team_id.to_s)
+      if val
+        val.to_i
+      else
+        nil
+      end
     end
 
     def self.checkouts_for(checkpoint_id)

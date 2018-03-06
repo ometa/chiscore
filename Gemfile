@@ -5,6 +5,8 @@ gem 'sinatra', '~> 1'
 gem 'redis'
 gem 'rake'
 gem "puma"
+gem 'awesome_print'
+gem 'rack-console'
 
 group :test do
   gem 'rspec'
