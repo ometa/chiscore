@@ -1,6 +1,5 @@
 $: << File.join(File.dirname(__FILE__), "lib")
 
-
 if ENV['RACK_ENV'] != 'production'
   require 'rspec/core/rake_task'
 
