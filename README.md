@@ -64,6 +64,12 @@ sudo n 8.9.4               # install node version 8.9.4, for example
 yarn
 ```
 
+### Development Login
+
+- Use a username and password from `config/data/$year/logins.csv`
+- Use a number from `config/data/$year/teams.csv`
+
+
 ## Deployment to Heroku
 
 - Generate the admin and secret keys:
@@ -138,10 +144,7 @@ ___Caution: Destructive___
 
 ## Export
 
-   YEAR=2018 OUTPUT=HTML SUMMARY=true rake export         # export nice HTML table lines
-   YEAR=2018 OUTPUT=CSV rake export                       # export all timing data from redis
-
-### Development Login
-
-- Use a username and password from `config/data/:year/logins.csv`
-- Use a number from `config/data/:year/teams.csv`
+```bash
+YEAR=2018 OUTPUT=HTML SUMMARY=true rake export   # export nice HTML table lines
+YEAR=2018 OUTPUT=CSV rake export                 # export all timing data from redis
+```
