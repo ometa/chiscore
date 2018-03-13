@@ -1,10 +1,10 @@
 module ChiScore
   class NoopRepositoryStrategy
-    def self.check_in!(*args); end
-    def self.active_for(*args); end
-    def self.checkins_for(*args); end
-    def self.checkouts_for(*args); end
-    def self.time_for(*args); end
-    def self.check_out!(*args); end
+    def self.check_in!(*); end
+    def self.active_for(*); end
+    def self.checkins_for(*); end
+    def self.checkouts_for(*); end
+    def self.time_for(*); end
+    def self.check_out!(*); end
   end
 end

@@ -12,7 +12,7 @@ module ChiScore
     DESTROY_CHECKIN_TIMEFRAME = CHECKIN_LENGTH - 300 # 5 minutes
 
     class << self
-      def checkin(checkpoint, team, *args)
+      def checkin(checkpoint, team, *)
         raise LockedCheckinAttempt if locked?(team)
         Repository.check_in!(checkpoint.id, team.id)
         Repository.check_out!(checkpoint.id, team.id) if checkpoint.role == "endpoint"
