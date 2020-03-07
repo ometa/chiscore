@@ -138,6 +138,10 @@ ___Caution: Destructive___
 
     rake redis_flushdb            # flush the connected redis database
 
+### Flush Remote DB
+
+	heroku run rake redis_flushdb
+
 ### Manually add a checkin
 
     > hset "checkins:6" 1617 1520117160
