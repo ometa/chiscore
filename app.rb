@@ -33,3 +33,4 @@ ChiScore::App = Rack::Builder.new do
   map("/admin")         { run Routers::Admin }
   map("/public")        { run Routers::Public }
 end
+
