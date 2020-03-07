@@ -21,7 +21,7 @@ require 'chiscore/repository/dev_strategy'
 set :sessions, true
 
 ChiScore::Repository.set_strategy(ChiScore::RedisStrategy)
-ChiScore::DataImporter.import_for(2016)
+ChiScore::DataImporter.import_for(2020)
 
 ChiScore::App = Rack::Builder.new do
   use Rack::Session::Cookie, :secret => ChiScore::Auth.secret_key
