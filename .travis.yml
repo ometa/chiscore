@@ -14,7 +14,7 @@ services:
 
 before_install:
   - rvm install 2.5.0
-  - gem install bundler
+  - gem install bundler -v 2.0.2
   - bundle install
 
 script:
