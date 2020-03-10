@@ -83,9 +83,13 @@ yarn
     - `TZ` - Set the app timezone.  See the `TZ` column in [the list](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
     - `REDISTOGO_URL` - Example: `redis://redistogo:abc123abc12381276e68463f5b9d4764@foo.redistogo.com:11442/`
 
+- Add the heroku remote if needed:
+
+		heroku git:remote -a chiscore1
+
 - Deploy the application:
 
-        git push heroku master
+		git push heroku master
 
 ## Usage Examples
 
@@ -144,7 +148,16 @@ ___Caution: Destructive___
 
 ## Export
 
+The finish line checkpoint ID still has to be hard-coded; see `lib/chiscore/support/data_exporter.rb`, then look for `def finish_checkpoint` and update the integer ID to match the ID used for the finish line in `config/data/checkpoints.csv`.
+
 ```bash
-YEAR=2018 OUTPUT=HTML SUMMARY=true rake export   # export nice HTML table lines
-YEAR=2018 OUTPUT=CSV rake export                 # export all timing data from redis
+YEAR=2018 OUTPUT=html SUMMARY=true rake export   # export nice HTML table lines
+YEAR=2018 OUTPUT=csv rake export                 # export all timing data from redis
 ```
+
+Run the export from Heroku:
+
+```bash
+heroku run -a chiscore1 YEAR=2020 OUTPUT=html rake export
+```
+

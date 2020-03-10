@@ -106,7 +106,7 @@ module ChiScore
     end
 
     def finish_checkpoint
-      @_finish_checkpoint ||= ChiScore::Checkpoints.find(6)
+      @_finish_checkpoint ||= ChiScore::Checkpoints.find(7)
     end
   end
 end
