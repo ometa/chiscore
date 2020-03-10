@@ -3,8 +3,10 @@
   <form id="checkin" type="post">
     <h2>Check-In at <%= checkpoint.name %></h2>
 
-    <div id="check-in-reminder">
-      <strong>Important:&nbsp;</strong>Click "Check In" to complete the check in for this team.
+    <div id="check-in-reminder-container">
+      <div id="check-in-reminder" class="hidden">
+        <strong>Important:&nbsp;</strong>Click "Check In" to complete the check in for this team.
+      </div>
     </div>
 
     <select id="team_checkin" name="team-number" placeholder="Enter a team name or number" class='select2 sign-up-input'>
@@ -28,7 +30,14 @@
     var form = $('form#checkin');
 
     input.select2({ placeholder: "Select a team", allowClear: true });
-    input.on('select2:select', function() { reminder.show() });
-    form.on('submit', function() { reminder.hide() });
+    input.on('select2:select', function() { 
+      reminder.removeClass('hidden').addClass('visible') 
+    });
+
+    form.on('submit', function() { 
+      reminder.fadeOut(250, function() {
+        reminder.show().removeClass('visible').addClass('hidden')
+      });
+    });
   });
 </script>
