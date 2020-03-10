@@ -155,6 +155,13 @@ ___Caution: Destructive___
 The finish line checkpoint ID still has to be hard-coded; see `lib/chiscore/support/data_exporter.rb`, then look for `def finish_checkpoint` and update the integer ID to match the ID used for the finish line in `config/data/checkpoints.csv`.
 
 ```bash
-YEAR=2018 OUTPUT=HTML SUMMARY=true rake export   # export nice HTML table lines
-YEAR=2018 OUTPUT=CSV rake export                 # export all timing data from redis
+YEAR=2018 OUTPUT=html SUMMARY=true rake export   # export nice HTML table lines
+YEAR=2018 OUTPUT=csv rake export                 # export all timing data from redis
 ```
+
+Run the export from Heroku:
+
+```bash
+heroku run -a chiscore1 YEAR=2020 OUTPUT=html rake export
+```
+
